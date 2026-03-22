@@ -1,54 +1,69 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* ── Core Backgrounds ─────────────────────────────── */
+  --bg-app:         #0A0E1A;
+  --bg-surface:     #0D1520;
+  --bg-panel:       #111D2E;
+  --bg-card:        #0F1A28;
+  --bg-card-hover:  #162234;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* ── Grid/Texture Overlay ──────────────────────────── */
+  --grid-line-color: rgba(0, 200, 255, 0.06);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* ── Primary Accent: Cyan ──────────────────────────── */
+  --cyan:           #00E5FF;
+  --cyan-dim:       #00B8CC;
+  --cyan-glow:      rgba(0, 229, 255, 0.35);
+  --cyan-glow-lg:   rgba(0, 229, 255, 0.15);
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* ── Secondary Accent: Magenta/Pink ───────────────── */
+  --magenta:        #FF00C8;
+  --magenta-dim:    #CC00A0;
+  --magenta-glow:   rgba(255, 0, 200, 0.35);
+
+  /* ── Module Accent Colors ── */
+  --mod-pathfinding:  #00E5FF;
+  --mod-ds-green:     #39FF14;
+  --mod-ds-orange:    #FF8C00;
+  --mod-det:          #00B8FF;
+  --mod-dmgt:         #FF00C8;
+  --mod-networks:     #FF8C00;
+  --mod-os:           #FF2244;
+
+  /* ── Text ──────────────────────────────────────────── */
+  --text-primary:   #E8F4FF;
+  --text-secondary: #7BA4C4;
+  --text-muted:     #3D6080;
+  --text-mono:      #A8D8B8;
+
+  /* ── Borders ───────────────────────────────────────── */
+  --border-default: rgba(0, 180, 255, 0.15);
+  --border-panel:   rgba(0, 180, 255, 0.20);
+  --border-glow:    rgba(0, 229, 255, 0.40);
+
+  /* ── Typography ────────────────────────────────────── */
+  --font-display: 'Orbitron', sans-serif;
+  --font-heading: 'Rajdhani', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* ── Spacing/Radii ─────────────────────────────────── */
+  --r-lg: 14px;
+  --t-fast: 80ms ease;
+
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+.home-grid-overlay {
+  background-image: 
+    linear-gradient(rgba(0,229,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.06) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255,0,200,0.03) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(255,0,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 80px 80px, 80px 80px;
 }
+
 
 #root {
   width: 1126px;

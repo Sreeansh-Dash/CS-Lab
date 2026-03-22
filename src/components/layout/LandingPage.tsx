@@ -1,479 +1,374 @@
 // src/components/layout/LandingPage.tsx
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
 
 const modules = [
     {
-        number: '01',
         id: 'pathfinding',
         title: 'PATHFINDING',
         subtitle: 'PLAYGROUND',
-        description: 'Visualize BFS, DFS, Dijkstra, and A* on interactive grids.',
-        icon: '◉',
+        description: 'Visualize graph traversal algorithms in real-time on interactive grids.',
         path: '/pathfinding',
-        color: '#00D4FF',
-        glow: 'rgba(0, 212, 255, 0.3)',
-        moduleClass: 'module-pathfinding',
-        topics: ['BFS · DFS', 'Dijkstra · A*', 'Mazes · Weights'],
+        color: '#00E5FF',
+        glow: 'rgba(0, 229, 255, 0.35)',
+        complexity: 'O(V + E)',
+        size: 'large',
     },
     {
-        number: '02',
-        id: 'dataStructures',
+        id: 'data-structures',
         title: 'DATA STRUCTURES',
         subtitle: 'MEMORY & FLOW',
-        description: 'Sorting race with 9 algorithms and interactive linked list memory.',
-        icon: '◈',
+        description: 'Sorting race with 9 algorithms and interactive linked list memory blocks.',
         path: '/data-structures',
-        color: '#A855F7',
-        glow: 'rgba(168, 85, 247, 0.35)',
-        moduleClass: 'module-datastructures',
-        topics: ['Sorting Race', 'Linked Lists', 'Heap · Radix'],
+        color: '#39FF14',
+        glow: 'rgba(57, 255, 20, 0.35)',
+        complexity: 'O(N log N)',
+        size: 'large',
     },
     {
-        number: '03',
         id: 'det',
         title: 'SIGNALS',
         subtitle: '& SYSTEMS',
-        description: 'Combine waves, view FFT frequency domains, and explore transforms.',
-        icon: '∿',
+        description: 'Combine waves and view FFT frequency domains.',
         path: '/det',
-        color: '#39FF14',
-        glow: 'rgba(57, 255, 20, 0.25)',
-        moduleClass: 'module-det',
-        topics: ['Fourier · FFT', 'Laplace · 3D', 'Wave Combiner'],
+        color: '#00B8FF',
+        glow: 'rgba(0, 184, 255, 0.35)',
+        complexity: 'O(N log N)',
+        size: 'small',
     },
     {
-        number: '04',
         id: 'dmgt',
         title: 'DISCRETE MATH',
-        subtitle: '& GRAPH THEORY',
-        description: 'Build predicates, evaluate quantifiers, and prove theorems.',
-        icon: '∀',
+        subtitle: '& LOGIC',
+        description: 'Build predicates and evaluate quantifiers.',
         path: '/dmgt',
-        color: '#F59E0B',
-        glow: 'rgba(245, 158, 11, 0.3)',
-        moduleClass: 'module-dmgt',
-        topics: ['Predicate Logic', 'Quantifiers', 'Proof Methods'],
+        color: '#FF00C8',
+        glow: 'rgba(255, 0, 200, 0.35)',
+        complexity: '∀x ∃y',
+        size: 'small',
     },
     {
-        number: '05',
         id: 'networks',
         title: 'COMPUTER',
         subtitle: 'NETWORKS',
-        description: 'Simulate error detection, CRC, and ARQ flow control protocols.',
-        icon: '⊻',
+        description: 'Simulate error detection and ARQ protocols.',
         path: '/networks',
-        color: '#06B6D4',
-        glow: 'rgba(6, 182, 212, 0.3)',
-        moduleClass: 'module-networks',
-        topics: ['Error Detection', 'CRC · Parity', 'ARQ Flow Control'],
+        color: '#FF8C00',
+        glow: 'rgba(255, 140, 0, 0.35)',
+        complexity: 'CRC-32',
+        size: 'small',
     },
     {
-        number: '06',
         id: 'os',
         title: 'OPERATING',
         subtitle: 'SYSTEMS',
-        description: 'Build Resource Allocation Graphs and detect deadlocks visually.',
-        icon: '◎',
+        description: 'Build RAGs and detect deadlocks visually.',
         path: '/os',
-        color: '#EF4444',
-        glow: 'rgba(239, 68, 68, 0.35)',
-        moduleClass: 'module-os',
-        topics: ['Deadlock RAG', "Banker's Algo", 'Multi-Instance'],
+        color: '#FF2244',
+        glow: 'rgba(255, 34, 68, 0.35)',
+        complexity: 'Deadlock-Free',
+        size: 'small',
     },
 ];
 
-// Animated particle network background
-function ParticleField() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        let animId: number;
-        const particles: { x: number; y: number; vx: number; vy: number }[] = [];
-        const COUNT = 60;
-        const CONNECTION_DIST = 150;
-
-        const resize = () => {
-            canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
-            canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
-            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-        };
-
-        const init = () => {
-            particles.length = 0;
-            const w = canvas.offsetWidth;
-            const h = canvas.offsetHeight;
-            for (let i = 0; i < COUNT; i++) {
-                particles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                });
-            }
-        };
-
-        const draw = () => {
-            const w = canvas.offsetWidth;
-            const h = canvas.offsetHeight;
-            ctx.clearRect(0, 0, w, h);
-
-            // Update positions
-            for (const p of particles) {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > w) p.vx *= -1;
-                if (p.y < 0 || p.y > h) p.vy *= -1;
-            }
-
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < CONNECTION_DIST) {
-                        const alpha = (1 - dist / CONNECTION_DIST) * 0.2;
-                        ctx.strokeStyle = `rgba(77, 124, 254, ${alpha})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Draw dots
-            for (const p of particles) {
-                ctx.fillStyle = 'rgba(77, 124, 254, 0.5)';
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            animId = requestAnimationFrame(draw);
-        };
-
-        resize();
-        init();
-        draw();
-
-        window.addEventListener('resize', () => {
-            resize();
-            init();
-        });
-
-        return () => {
-            cancelAnimationFrame(animId);
-        };
-    }, []);
-
-    return (
-        <canvas
-            ref={canvasRef}
-            style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                pointerEvents: 'none',
-            }}
+const PortalAnimation = () => (
+    <div className="portal-container">
+        <motion.div 
+            className="portal-ring ring-1"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
-    );
-}
+        <motion.div 
+            className="portal-ring ring-2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        />
+        <div className="portal-core">
+            <span className="portal-text">ENTER LAB</span>
+        </div>
+    </div>
+);
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.08, delayChildren: 0.3 },
-    },
-};
-
-const cardVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] } },
-};
+const ModuleCard = ({ mod }: { mod: typeof modules[0] }) => (
+    <motion.div
+        whileHover={{ y: -5, scale: 1.02 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className={`module-card ${mod.size}`}
+        style={{ 
+            '--card-accent': mod.color,
+            '--card-glow': mod.glow 
+        } as any}
+    >
+        <Link to={mod.path} className="card-link">
+            <div className="card-hud-corners" />
+            <div className="card-content">
+                <h3 className="card-title">{mod.title}</h3>
+                <span className="card-subtitle">{mod.subtitle}</span>
+                <p className="card-description">{mod.description}</p>
+                <div className="card-footer">
+                    <span className="card-complexity">Complexity: {mod.complexity}</span>
+                </div>
+            </div>
+        </Link>
+    </motion.div>
+);
 
 export default function LandingPage() {
+    const featured = modules.filter(m => m.size === 'large');
+    const standard = modules.filter(m => m.size === 'small');
+
     return (
-        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-            {/* Particle Background */}
-            <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100vh',
-                pointerEvents: 'none',
-            }}>
-                <ParticleField />
-            </div>
-
-            {/* Hero Section */}
-            <div
-                style={{
-                    minHeight: '60vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: 'var(--space-16) var(--space-8)',
-                    position: 'relative',
-                    zIndex: 1,
-                }}
-            >
-                {/* Eyebrow */}
-                <motion.span
-                    initial={{ opacity: 0, y: -10 }}
+        <div className="landing-page home-grid-overlay">
+            <header className="hero-section">
+                <motion.h1 
+                    initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                        fontFamily: 'var(--font-code)',
-                        fontSize: 'var(--text-xs)',
-                        color: 'var(--accent-cyan)',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        marginBottom: 'var(--space-4)',
-                    }}
+                    className="hero-title"
                 >
-                    Interactive Learning Platform
-                </motion.span>
-
-                {/* Headline */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'var(--text-3xl)',
-                        fontWeight: 800,
-                        color: 'var(--text-primary)',
-                        lineHeight: 1.1,
-                        letterSpacing: '-0.03em',
-                        marginBottom: 'var(--space-3)',
-                    }}
-                >
-                    Learn CS by Doing
+                    LEARN CS BY DOING
                 </motion.h1>
-
-                {/* Subhead */}
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'var(--text-2xl)',
-                        fontWeight: 400,
-                        fontStyle: 'italic',
-                        color: 'var(--text-muted)',
-                        marginBottom: 'var(--space-6)',
-                    }}
-                >
-                    Not by memorising.
-                </motion.p>
-
-                {/* Description */}
-                <motion.p
+                <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: 'var(--text-base)',
-                        color: 'var(--text-secondary)',
-                        maxWidth: 520,
-                        lineHeight: 1.6,
-                        marginBottom: 'var(--space-6)',
-                    }}
+                    transition={{ delay: 0.2 }}
+                    className="hero-subtitle"
                 >
-                    Master algorithms, data structures, signals, networks, and OS concepts
-                    through interactive visualizations and step-by-step animations.
+                    Not by memorising. Master concepts through interactive visualizations.
                 </motion.p>
+            </header>
 
-                {/* Hint */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.5 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                    style={{
-                        fontFamily: 'var(--font-code)',
-                        fontSize: 'var(--text-xs)',
-                        color: 'var(--text-muted)',
-                        marginBottom: 'var(--space-4)',
-                    }}
-                >
-                    Press [1]–[6] to jump to any module  ·  Press [?] for all shortcuts
-                </motion.p>
+            <main className="cards-container">
+                <div className="featured-row">
+                    <ModuleCard mod={featured[0]} />
+                    <PortalAnimation />
+                    <ModuleCard mod={featured[1]} />
+                </div>
+                <div className="standard-grid">
+                    {standard.map(mod => (
+                        <ModuleCard key={mod.id} mod={mod} />
+                    ))}
+                </div>
+            </main>
 
-                {/* Description */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: 'var(--text-base)',
-                        color: 'var(--text-secondary)',
-                        maxWidth: 520,
-                        lineHeight: 1.6,
-                        marginBottom: 'var(--space-8)',
-                    }}
-                >
-                    Master algorithms, data structures, signals, networks, and OS concepts
-                    through interactive visualizations and step-by-step animations.
-                </motion.p>
+            <style>{`
+                .landing-page {
+                    min-height: 100vh;
+                    padding: 60px 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    overflow-x: hidden;
+                    background-color: var(--bg-app);
+                }
 
-                {/* CTA */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.4 }}
-                >
-                    <Link to="/pathfinding">
-                        <motion.button
-                            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(77, 124, 254, 0.5)' }}
-                            whileTap={{ scale: 0.97 }}
-                            style={{
-                                background: 'var(--accent-blue)',
-                                color: '#fff',
-                                border: 'none',
-                                padding: '16px 40px',
-                                borderRadius: 'var(--radius-lg)',
-                                fontFamily: 'var(--font-body)',
-                                fontSize: 'var(--text-base)',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                boxShadow: 'var(--glow-blue)',
-                                letterSpacing: '0.01em',
-                            }}
-                        >
-                            Start Exploring →
-                        </motion.button>
-                    </Link>
-                </motion.div>
-            </div>
+                .hero-section {
+                    text-align: center;
+                    margin-bottom: 60px;
+                }
 
-            {/* Module Grid */}
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
-                    gap: 'var(--space-6)',
-                    padding: '0 var(--space-8) var(--space-16)',
-                    maxWidth: 1280,
-                    margin: '0 auto',
-                    position: 'relative',
-                    zIndex: 1,
-                }}
-            >
-                {modules.map((mod, index) => (
-                    <motion.div key={mod.id} variants={cardVariants}>
-                        <Link to={mod.path} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
-                            <motion.div
-                                whileHover={{
-                                    y: -4,
-                                    scale: 1.02,
-                                    boxShadow: `0 8px 32px ${mod.glow}`,
-                                }}
-                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                style={{
-                                    background: 'var(--bg-surface)',
-                                    borderRadius: 'var(--radius-lg)',
-                                    padding: 'var(--space-6)',
-                                    cursor: 'pointer',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    border: `1px solid var(--border-subtle)`,
-                                    animationDelay: `${index * 80}ms`,
-                                }}
-                                onMouseEnter={e => {
-                                    (e.currentTarget as HTMLElement).style.borderColor = mod.color;
-                                }}
-                                onMouseLeave={e => {
-                                    (e.currentTarget as HTMLElement).style.borderColor = '';
-                                }}
-                            >
-                                {/* Number */}
-                                <span style={{
-                                    fontFamily: 'var(--font-code)',
-                                    fontSize: '11px',
-                                    color: 'var(--text-muted)',
-                                    letterSpacing: '0.1em',
-                                    display: 'block',
-                                    marginBottom: 'var(--space-2)',
-                                }}>{mod.number}</span>
+                .hero-title {
+                    font-family: var(--font-display);
+                    font-size: clamp(32px, 6vw, 64px);
+                    font-weight: 900;
+                    color: #FFFFFF;
+                    letter-spacing: 0.12em;
+                    margin: 0 0 16px;
+                    text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+                }
 
-                                {/* Icon */}
-                                <span style={{
-                                    fontSize: '28px',
-                                    display: 'block',
-                                    marginBottom: 'var(--space-3)',
-                                    color: mod.color,
-                                }}>{mod.icon}</span>
+                .hero-subtitle {
+                    font-family: var(--font-mono);
+                    font-size: 16px;
+                    color: var(--text-secondary);
+                    letter-spacing: 0.04em;
+                    max-width: 600px;
+                    margin: 0 auto;
+                }
 
-                                {/* Title */}
-                                <h3 style={{
-                                    fontFamily: 'var(--font-display)',
-                                    fontSize: '18px',
-                                    fontWeight: 700,
-                                    color: 'var(--text-primary)',
-                                    marginBottom: 'var(--space-1)',
-                                    lineHeight: 1.2,
-                                }}>{mod.title}</h3>
+                .cards-container {
+                    max-width: 1200px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 32px;
+                }
 
-                                {/* Subtitle */}
-                                <span style={{
-                                    fontFamily: 'var(--font-code)',
-                                    fontSize: '12px',
-                                    color: 'var(--text-muted)',
-                                    textTransform: 'uppercase' as const,
-                                    letterSpacing: '0.1em',
-                                    display: 'block',
-                                    marginBottom: 'var(--space-4)',
-                                }}>{mod.subtitle}</span>
+                .featured-row {
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
+                    align-items: center;
+                    gap: 40px;
+                }
 
-                                {/* Topics */}
-                                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 var(--space-4) 0' }}>
-                                    {mod.topics.map(topic => (
-                                        <li key={topic} style={{
-                                            fontSize: '13px',
-                                            color: 'var(--text-secondary)',
-                                            padding: '2px 0',
-                                        }}>
-                                            <span style={{ color: mod.color }}>· </span>{topic}
-                                        </li>
-                                    ))}
-                                </ul>
+                .standard-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 20px;
+                }
 
-                                {/* Arrow */}
-                                <span style={{
-                                    position: 'absolute',
-                                    bottom: 'var(--space-4)',
-                                    right: 'var(--space-4)',
-                                    fontSize: '20px',
-                                    color: mod.color,
-                                    transition: 'transform 200ms ease',
-                                }}>→</span>
-                            </motion.div>
-                        </Link>
-                    </motion.div>
-                ))}
-            </motion.div>
+                /* Portal Styles */
+                .portal-container {
+                    position: relative;
+                    width: 220px;
+                    height: 220px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .portal-ring {
+                    position: absolute;
+                    border: 2px solid transparent;
+                    border-radius: 50%;
+                }
+
+                .ring-1 {
+                    width: 100%;
+                    height: 100%;
+                    border-top-color: var(--cyan);
+                    border-bottom-color: var(--cyan);
+                    box-shadow: 0 0 20px var(--cyan-glow);
+                }
+
+                .ring-2 {
+                    width: 80%;
+                    height: 80%;
+                    border-left-color: var(--magenta);
+                    border-right-color: var(--magenta);
+                    box-shadow: 0 0 20px var(--magenta-glow);
+                }
+
+                .portal-core {
+                    width: 60%;
+                    height: 60%;
+                    background: radial-gradient(circle, rgba(0,229,255,0.2) 0%, transparent 70%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .portal-text {
+                    font-family: var(--font-display);
+                    font-size: 12px;
+                    color: var(--cyan);
+                    letter-spacing: 0.2em;
+                    text-shadow: 0 0 10px var(--cyan-glow);
+                }
+
+                /* Module Card Styles */
+                .module-card {
+                    background: rgba(15, 26, 40, 0.8);
+                    border: 1px solid rgba(0, 229, 255, 0.1);
+                    border-radius: var(--r-lg);
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+                }
+
+                .module-card:hover {
+                    border-color: var(--card-accent);
+                    box-shadow: 0 0 30px var(--card-glow), inset 0 0 20px rgba(0,0,0,0.4);
+                }
+
+                .card-link {
+                    display: block;
+                    padding: 24px;
+                    text-decoration: none;
+                    color: inherit;
+                    height: 100%;
+                }
+
+                .module-card.large {
+                    min-height: 380px;
+                }
+
+                .module-card.small {
+                    min-height: 220px;
+                }
+
+                .card-hud-corners::before,
+                .card-hud-corners::after {
+                    content: '';
+                    position: absolute;
+                    width: 16px;
+                    height: 16px;
+                    border-color: var(--card-accent);
+                    border-style: solid;
+                }
+
+                .card-hud-corners::before {
+                    top: 10px;
+                    left: 10px;
+                    border-width: 2px 0 0 2px;
+                }
+
+                .card-hud-corners::after {
+                    bottom: 10px;
+                    right: 10px;
+                    border-width: 0 2px 2px 0;
+                }
+
+                .card-title {
+                    font-family: var(--font-display);
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: var(--card-accent);
+                    margin: 0 0 4px;
+                    letter-spacing: 0.05em;
+                }
+
+                .card-subtitle {
+                    font-family: var(--font-heading);
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    display: block;
+                    margin-bottom: 16px;
+                    letter-spacing: 0.02em;
+                }
+
+                .card-description {
+                    font-family: var(--font-body);
+                    font-size: 14px;
+                    color: var(--text-secondary);
+                    line-height: 1.5;
+                    margin-bottom: 24px;
+                }
+
+                .card-footer {
+                    margin-top: auto;
+                    padding-top: 16px;
+                    border-top: 1px solid rgba(255,255,255,0.05);
+                }
+
+                .card-complexity {
+                    font-family: var(--font-mono);
+                    font-size: 11px;
+                    color: var(--text-muted);
+                    text-transform: uppercase;
+                }
+
+                @media (max-width: 1024px) {
+                    .featured-row {
+                        grid-template-columns: 1fr;
+                        justify-items: center;
+                    }
+                    .standard-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                    .portal-container {
+                        order: -1;
+                        margin-bottom: 20px;
+                    }
+                }
+
+                @media (max-width: 640px) {
+                    .standard-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            `}</style>
         </div>
     );
 }
