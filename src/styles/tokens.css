@@ -1,0 +1,227 @@
+/* src/styles/tokens.css — Design System Tokens v2.0 "Dark Academic Lab" */
+
+:root {
+  /* ── Backgrounds ── */
+  --bg-void:        #050810;
+  --bg-base:        #090D1A;
+  --bg-surface:     #0F1629;
+  --bg-elevated:    #172035;
+  --bg-overlay:     rgba(15, 22, 41, 0.85);
+
+  /* ── Borders ── */
+  --border-subtle:  rgba(99, 130, 255, 0.12);
+  --border-default: rgba(99, 130, 255, 0.22);
+  --border-strong:  rgba(99, 130, 255, 0.45);
+  --border-glow:    rgba(99, 130, 255, 0.7);
+
+  /* ── Text ── */
+  --text-primary:   #EDF2FF;
+  --text-secondary: #8B9CC8;
+  --text-muted:     #4A5578;
+  --text-inverse:   #050810;
+
+  /* ── Accent Palette ── */
+  --accent-blue:    #4D7CFE;
+  --accent-cyan:    #22D3EE;
+  --accent-emerald: #10B981;
+  --accent-amber:   #F59E0B;
+  --accent-rose:    #F43F5E;
+  --accent-violet:  #8B5CF6;
+  --accent-orange:  #FB923C;
+  --accent-lime:    #84CC16;
+
+  /* ── Algorithm Channel Colors ── */
+  --algo-bfs:       #4D7CFE;
+  --algo-dfs:       #F59E0B;
+  --algo-dijkstra:  #8B5CF6;
+  --algo-astar:     #F43F5E;
+  --algo-bubble:    #22D3EE;
+  --algo-insertion: #10B981;
+  --algo-selection: #FB923C;
+  --algo-merge:     #8B5CF6;
+  --algo-heap:      #F43F5E;
+  --algo-counting:  #84CC16;
+  --algo-radix:     #F59E0B;
+  --algo-quick:     #8B5CF6;
+  --algo-shell:     #22D3EE;
+
+  /* ── Glow Effects ── */
+  --glow-blue:      0 0 24px rgba(77, 124, 254, 0.45),  0 0 60px rgba(77, 124, 254, 0.15);
+  --glow-cyan:      0 0 24px rgba(34, 211, 238, 0.45),  0 0 60px rgba(34, 211, 238, 0.15);
+  --glow-emerald:   0 0 24px rgba(16, 185, 129, 0.45),  0 0 60px rgba(16, 185, 129, 0.15);
+  --glow-rose:      0 0 32px rgba(244, 63, 94, 0.6),    0 0 80px rgba(244, 63, 94, 0.2);
+  --glow-amber:     0 0 24px rgba(245, 158, 11, 0.45),  0 0 60px rgba(245, 158, 11, 0.15);
+  --glow-violet:    0 0 24px rgba(139, 92, 246, 0.45),   0 0 60px rgba(139, 92, 246, 0.15);
+
+  /* ── Typography ── */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-code:    'JetBrains Mono', monospace;
+
+  /* ── Text Scale ── */
+  --text-xs:    0.8rem;
+  --text-sm:    0.9375rem;
+  --text-base:  1.0625rem;
+  --text-lg:    1.25rem;
+  --text-xl:    1.5rem;
+  --text-2xl:   2rem;
+  --text-3xl:   2.75rem;
+
+  /* ── Spacing Scale ── */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
+  --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+  --space-16: 64px; --space-20: 80px;
+
+  /* ── Border Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-sharp:  cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast: 120ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
+  --duration-3d: 1100ms;
+
+  /* ── Z-Index Scale ── */
+  --z-canvas: 1;
+  --z-overlay: 10;
+  --z-tooltip: 20;
+  --z-modal: 30;
+  --z-topnav: 40;
+  --z-sidebar: 45;
+
+  /* ── Backward-compat aliases (transitional) ── */
+  --color-bg-primary: var(--bg-void);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-elevated);
+  --color-border: var(--border-default);
+  --color-accent-primary: var(--accent-blue);
+  --color-accent-secondary: var(--accent-cyan);
+  --color-accent-success: var(--accent-emerald);
+  --color-accent-danger: var(--accent-rose);
+  --color-accent-warning: var(--accent-amber);
+  --color-accent-info: var(--accent-blue);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-base: var(--text-base);
+  --font-size-lg: var(--text-lg);
+  --font-size-xl: var(--text-xl);
+  --font-size-2xl: var(--text-2xl);
+  --shadow-glow-indigo: var(--glow-blue);
+  --shadow-glow-cyan: var(--glow-cyan);
+  --shadow-glow-red: var(--glow-rose);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+  --duration-fast: 120ms;
+  --duration-normal: var(--duration-base);
+  --duration-slow: 450ms;
+}
+
+/* ── Module Visual Identities ─────────────────────────── */
+
+/* Module 1: Pathfinding — "Terrain Mapper" */
+.module-pathfinding {
+  --mod-accent:    #00D4FF;
+  --mod-glow:      rgba(0, 212, 255, 0.3);
+  --mod-bg:        #070D14;
+  --mod-surface:   #0A1828;
+  --mod-border:    #0E3A5C;
+  --mod-font-head: 'Courier Prime', monospace;
+  background-color: var(--mod-bg);
+  background-image: radial-gradient(circle, #0D2035 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Module 2: Data Structures — "Memory Machine" */
+.module-datastructures {
+  --mod-accent:    #A855F7;
+  --mod-glow:      rgba(168, 85, 247, 0.35);
+  --mod-bg:        #0C0814;
+  --mod-surface:   #130D20;
+  --mod-border:    #2D1A50;
+  --mod-font-head: 'Share Tech Mono', monospace;
+  background-color: var(--mod-bg);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      #1A0D30 18px,
+      #1A0D30 19px
+    );
+}
+
+/* Module 3: Signals & Systems — "Oscilloscope Lab" */
+.module-det {
+  --mod-accent:    #39FF14;
+  --mod-glow:      rgba(57, 255, 20, 0.25);
+  --mod-bg:        #060A06;
+  --mod-surface:   #080E08;
+  --mod-border:    #1A3D1A;
+  --mod-font-head: 'VT323', monospace;
+  background-color: var(--mod-bg);
+}
+.det-canvas-container {
+  background: #040804;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.2) 3px, rgba(0,0,0,0.2) 4px
+  );
+  border: 2px solid #1A3D1A;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(57,255,20,0.1), inset 0 0 80px rgba(0,0,0,0.5);
+}
+
+/* Module 4: Discrete Math — "Logic Forge" */
+.module-dmgt {
+  --mod-accent:    #F59E0B;
+  --mod-glow:      rgba(245, 158, 11, 0.3);
+  --mod-bg:        #0D0900;
+  --mod-surface:   #140E00;
+  --mod-border:    #3D2D00;
+  --mod-font-head: 'Playfair Display', serif;
+  background-color: var(--mod-bg);
+}
+
+/* Module 5: Computer Networks — "Packet Storm" */
+.module-networks {
+  --mod-accent:    #06B6D4;
+  --mod-glow:      rgba(6, 182, 212, 0.3);
+  --mod-bg:        #030D10;
+  --mod-surface:   #051820;
+  --mod-border:    #063040;
+  --mod-font-head: 'B612 Mono', monospace;
+  background-color: var(--mod-bg);
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 39px,
+    rgba(6, 182, 212, 0.04) 39px, rgba(6, 182, 212, 0.04) 40px
+  );
+}
+
+/* Module 6: Operating Systems — "Process Arena" */
+.module-os {
+  --mod-accent:    #EF4444;
+  --mod-glow:      rgba(239, 68, 68, 0.35);
+  --mod-bg:        #0F0505;
+  --mod-surface:   #1A0A0A;
+  --mod-border:    #3D1A1A;
+  --mod-font-head: 'Exo 2', sans-serif;
+  background-color: var(--mod-bg);
+}
+.module-os.deadlock-active {
+  background-image: repeating-linear-gradient(
+    -45deg, transparent, transparent 10px,
+    rgba(239, 68, 68, 0.03) 10px, rgba(239, 68, 68, 0.03) 20px
+  );
+}
